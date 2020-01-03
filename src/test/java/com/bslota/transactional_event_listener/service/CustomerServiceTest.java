@@ -2,6 +2,7 @@ package com.bslota.transactional_event_listener.service;
 
 import com.bslota.transactional_event_listener.model.Customer;
 import com.bslota.transactional_event_listener.repository.CustomerRepository;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class CustomerServiceTest {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private MyOwnDataSourceService myOwnDataSourceService;
+
     @Test
     public void shouldPersistCustomerWithToken() throws Exception {
         //when
@@ -35,6 +39,16 @@ public class CustomerServiceTest {
         assertEquals("Matt", returnedCustomer.getName());
         assertTrue(returnedCustomer.hasToken());
         assertEquals(returnedCustomer, persistedCustomer);
+    }
+
+    @Test
+    public void doTest() {
+        myOwnDataSourceService.doTest();
+    }
+
+    @After
+    public void doClear() {
+        myOwnDataSourceService.doClear();
     }
 
 

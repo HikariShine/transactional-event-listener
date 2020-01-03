@@ -20,7 +20,7 @@ public class DefaultTokenGenerator implements TokenGenerator {
         this.customerRepository = customerRepository;
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public void generateToken(Customer customer) {
         final String token = String.valueOf(customer.hashCode());
         customer.activatedWith(token);

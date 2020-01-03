@@ -29,7 +29,7 @@ public class MyOwnDataSourceService {
      * 7. 三个savepoint，release中间的一个，还可以rollback到这个savepoint之后吗
      * 8. 三个savepoint，release中间的一个，还可以rollback到这个savepoint吗
      */
-    public void doTest() {
+    public void doTestSavepoint() {
         try {
             Connection connection = dataSource.getConnection();
             connection.setAutoCommit(false);
@@ -89,6 +89,22 @@ public class MyOwnDataSourceService {
             // 而上面的示例为什么没用呢，因为mysql驱动并没有实现这个方法，不知道不实现这个方法是基于什么考虑
             // com.mysql.jdbc.ConnectionImpl和com.mysql.cj.jdbc.ConnectionImpl的releaseSavepoint方法是一个空的逻辑，不执行任何操作
             // 而mysql数据库原始的SAVEPOINT Matt2;RELEASE SAVEPOINT Matt2;ROLLBACK TO SAVEPOINT Matt2;是有效的，会报错
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 测试事务提交，当设置autoCommit时，会自动把之前未提交的内容提交，相当于执行了事务提交
+     */
+    public void doTestAutoCommit() {
+        try {
+            Connection connection = dataSource.getConnection();
+            connection.setAutoCommit(false);
+            Statement statement = connection.createStatement();
+            statement.execute("INSERT INTO customer(name, email) VALUES ('Matt1', 'matt@gmail.com')");
+            connection.setAutoCommit(true);
+            // connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }

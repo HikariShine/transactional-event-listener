@@ -43,7 +43,7 @@ public class CustomerServiceTest {
 
     @Test
     public void doTest() {
-        myOwnDataSourceService.doTest();
+        myOwnDataSourceService.doTestSavepoint();
     }
 
     @After
